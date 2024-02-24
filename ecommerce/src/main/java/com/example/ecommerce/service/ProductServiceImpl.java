@@ -31,7 +31,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 	
 	@Override
-	public Product getProductById(int id) {
+	public Product getProductById(Long id) {
 		return repository.findById(id).orElse(null);
 	}
 	
@@ -41,7 +41,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 	
 	@Override
-	public String deleteProduct(int id) {
+	public String deleteProduct(Long id) {
 		Optional<Product> optionalProduct = repository.findById(id);
 		if ( optionalProduct.isPresent()) {
 			repository.deleteById(id);
@@ -59,6 +59,8 @@ public class ProductServiceImpl implements ProductService {
 		existingProduct.setDescription(product.getDescription());
 		existingProduct.setQuantity(product.getQuantity());
 		existingProduct.setPrice(product.getPrice());
+		existingProduct.setImage(product.getImage());
+		existingProduct.setCategory(product.getCategory());
 		return repository.save(existingProduct);
 	}
 }

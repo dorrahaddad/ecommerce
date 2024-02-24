@@ -4,8 +4,8 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.example.ecommerce.model.Client;
+import com.example.ecommerce.model.User;
 
-public interface ClientRepository extends JpaRepository<Client, Long> {
-	Optional<Client> findByEmail(String email);
+public interface UserRepository extends JpaRepository<User, Long> {
+	Optional<User> findByEmail(String email);
 }

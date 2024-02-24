@@ -1,52 +1,59 @@
 package com.example.ecommerce.service;
 
-
-
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.ecommerce.model.Client;
-import com.example.ecommerce.repository.ClientRepository;
+import com.example.ecommerce.model.User;
+import com.example.ecommerce.repository.UserRepository;
 
 @Service
-public class ClientService {
+public class UserService {
     @Autowired
-    private ClientRepository clientRepository;
+    private UserRepository userRepository;
 
-    public Optional<Client> findByEmail(String email) {
-        return clientRepository.findByEmail(email);
-    }
-    public Client saveUser(Client client) {
-        return clientRepository.save(client);
+    public Optional<User> findByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
     
-    public List<Client> getClients(){
-		return clientRepository.findAll();
+    public User saveUser(User user) {
+        return userRepository.save(user);
+    }
+    
+    public List<User> getUsers(){
+		return userRepository.findAll();
 	}
 	
-	public Client addClient(Client client) {
-		return clientRepository.save(client);
+	public User addUser(User user) {
+		return userRepository.save(user);
 	}
 	
-	public Client findClient(long id) {
-		return clientRepository.findById(id).orElse(null);
+	public User findUser(Long id) {
+		return userRepository.findById(id).orElse(null);
 	}
 	
-	public void deleteClient(long id) {
-		clientRepository.deleteById(id);
+	public String deleteUser(Long id) {
+		Optional<User> optionalUser = userRepository.findById(id);
+		if ( optionalUser.isPresent()) {
+			userRepository.deleteById(id);
+			return "Deleted user with ID:"+id;
+		}
+		else {
+			return "User with ID: "+id+" does not exist!!";
+		}
 	}
 	
-	public Client updateClient(Client client) {
-		Client existClient = clientRepository.findById(client.getId()).orElse(null);
-		existClient.setAdresse(client.getAdresse());
-		existClient.setEmail(client.getEmail());
-		existClient.setMotdepasse(client.getMotdepasse());
-		existClient.setNom(client.getNom());
-		existClient.setPrenom(client.getPrenom());
-		existClient.setTelephone(client.getTelephone());
-		return clientRepository.save(existClient);
+	public User updateUser(User user) {
+		User existuser = userRepository.findById(user.getId()).orElse(null);
+		existuser.setAdresse(user.getAdresse());
+		existuser.setEmail(user.getEmail());
+		existuser.setPassword(user.getPassword());
+		existuser.setNom(user.getNom());
+		existuser.setPrenom(user.getPrenom());
+		existuser.setTelephone(user.getTelephone());
+		existuser.setRole(user.getRole());
+		return userRepository.save(existuser);
 	}
 }

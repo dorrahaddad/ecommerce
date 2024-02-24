@@ -1,17 +1,7 @@
 package com.example.ecommerce.model;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Column;
-import jakarta.persistence.GenerationType;
-
-import lombok.NonNull;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.persistence.*;
+import lombok.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -23,13 +13,25 @@ import lombok.Setter;
 public class Product {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private Long id;
+	
 	@Column(length = 20)
 	@NonNull
 	private String name;
+	
+	@Lob
 	private String description;
+	
 	private int quantity;
+	
 	private double price;
 	
+	@Lob
+	@Column(columnDefinition = "longblob")
+	private byte[] image;
+	
+	@ManyToOne
+	@JoinColumn(name = "category_id",nullable=false)
+    private Category category;
 
 }

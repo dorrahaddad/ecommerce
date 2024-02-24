@@ -10,24 +10,24 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.ecommerce.model.Client;
-import com.example.ecommerce.service.ClientService;
+import com.example.ecommerce.model.User;
+import com.example.ecommerce.service.UserService;
 
 @RestController
 @RequestMapping("/")
 public class RegisterController {
 	@Autowired
-    private ClientService clientService;
+    private UserService userService;
 	@PostMapping("register")
-    public ResponseEntity<String> register(@RequestBody Client newClient) {
+    public ResponseEntity<String> register(@RequestBody User newUser) {
 
-        if (clientService.findByEmail(newClient.getEmail()).isPresent())
+        if (userService.findByEmail(newUser.getEmail()).isPresent())
         {
             return new ResponseEntity<>("email is already in use", HttpStatus.BAD_REQUEST);
         }
 
         // Save the new user
-        clientService.saveUser(newClient);
+        userService.saveUser(newUser);
 
         return new ResponseEntity<>("Registration successful", HttpStatus.CREATED);
     }

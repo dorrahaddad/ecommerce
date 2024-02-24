@@ -3,53 +3,40 @@ package com.example.ecommerce.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import com.example.ecommerce.model.Client;
-import com.example.ecommerce.repository.ClientRepository;
-import com.example.ecommerce.service.ClientService;
-
-import java.io.IOException;
+import com.example.ecommerce.model.User;
+import com.example.ecommerce.service.UserService;
 import java.util.List;
+
 @RestController
-@RequestMapping("/clients")
+@RequestMapping("/users")
 
-public class ClientController {
+public class UserController {
 	@Autowired
-    private ClientRepository clientRepository;
-	@Autowired
-	private ClientService clientService;
+	private UserService userService;
 
-    @GetMapping
-    public List<Client> getAllClients() {
-        return clientRepository.findAll();
-    }
-
-    @PostMapping
-    public Client createUtilisateur(@RequestBody Client client) {
-        return clientRepository.save(client);
-    }
-    
     @GetMapping("/")
-	public List<Client> showClients(){
-		return clientService.getClients();
+	public List<User> showUsers(){
+		return userService.getUsers();
 	}
 	
-	@PostMapping("/addClient")
-	public Client addClient(Client client) throws IOException{
-		return clientService.addClient(client);
-	}
-	@GetMapping("/getClient/{id}")
-	public Client findClient(@PathVariable long id) {
-		return clientService.findClient(id);
+	@PostMapping("/addUser")
+	public User addUsers(@RequestBody User user) {
+		return userService.addUser(user);
 	}
 	
-	@PutMapping("/updateClient")
-	public Client updateClient(Client client) {
-		return clientService.updateClient(client);
+	@GetMapping("/getUser/{id}")
+	public User findUser(@PathVariable Long id) {
+		return userService.findUser(id);
 	}
 	
-	@DeleteMapping("/deleteClient/{id}")
-	public void deleteClient(@PathVariable long id) {
-		clientService.deleteClient(id);
+	@PutMapping("/updateUser")
+	public User updateUser(@RequestBody User user) {
+		return userService.updateUser(user);
+	}
+	
+	@DeleteMapping("/deleteUser/{id}")
+	public String deleteUser(@PathVariable Long id) {
+		return userService.deleteUser(id);
 	}
 
 

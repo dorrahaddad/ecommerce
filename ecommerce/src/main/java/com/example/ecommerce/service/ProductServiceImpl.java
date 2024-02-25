@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
 
+import com.example.ecommerce.model.Category;
 import com.example.ecommerce.model.Product;
 import com.example.ecommerce.repository.ProductRepository;
 
@@ -15,9 +16,26 @@ public class ProductServiceImpl implements ProductService {
 	@Autowired
 	private ProductRepository repository;
 	
+	@Autowired
+	private CategoryService categoryService;
+	
 	@Override
 	public Product saveProduct(Product product) {
-		return repository.save(product);
+		Category c = product.getCategory();
+		//check if category exists in DB
+		if (c!=null) {
+			Optional<Category> existingCategory = categoryService.getByCategoryName(c.getCategoryName());
+			if (existingCategory.isPresent()) { 
+				//in case only name is mentioned in JSON request 
+				c.setId(existingCategory.get().getId());
+				product.setCategory(c);
+				return repository.save(product);
+				}
+			else 
+				return null;	
+		}	
+		else 
+			return repository.save(product);
 	}
 	
 	@Override
@@ -31,12 +49,12 @@ public class ProductServiceImpl implements ProductService {
 	}
 	
 	@Override
-	public Product getProductById(Long id) {
-		return repository.findById(id).orElse(null);
+	public Optional<Product> getProductById(Long id) {
+		return repository.findById(id);
 	}
 	
 	@Override
-	public Product getProductByName(String name) {
+	public Optional<Product> getProductByName(String name) {
 		return repository.findByName(name);
 	}
 	
@@ -53,14 +71,29 @@ public class ProductServiceImpl implements ProductService {
 	}
 	
 	@Override
-	public Product updateProduct(Product product) {
+	public String updateProduct(Product product) {
 		Product existingProduct = repository.findById(product.getId()).orElse(null);
 		existingProduct.setName(product.getName());
 		existingProduct.setDescription(product.getDescription());
 		existingProduct.setQuantity(product.getQuantity());
 		existingProduct.setPrice(product.getPrice());
-		existingProduct.setImage(product.getImage());
-		existingProduct.setCategory(product.getCategory());
-		return repository.save(existingProduct);
+		existingProduct.setImgUrl(product.getImgUrl());
+		Category c = product.getCategory();
+		if (c==null) {
+			existingProduct.setCategory(c);
+			repository.save(existingProduct);
+			return "Product updated ! ";
+		}
+		else {
+			Optional<Category> existingCategory = categoryService.getByCategoryName(c.getCategoryName());
+			if (existingCategory.isPresent()) { 
+				c.setId(existingCategory.get().getId());
+				existingProduct.setCategory(c);
+				repository.save(existingProduct);
+				return "Product updated ! ";
+				}
+			else 
+				return "Category not found";	
+		}	
 	}
 }

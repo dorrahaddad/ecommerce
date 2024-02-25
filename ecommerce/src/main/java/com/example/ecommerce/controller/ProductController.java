@@ -1,6 +1,7 @@
 package com.example.ecommerce.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -38,17 +39,17 @@ public class ProductController{
 	}
 	
 	@GetMapping("/productById/{id}")
-	public Product findProductById(@PathVariable Long id){
+	public Optional<Product> findProductById(@PathVariable Long id){
 		return service.getProductById(id);
 	}
 	
 	@GetMapping("/product/{name}")
-	public Product findProductByName(@PathVariable String name){
+	public Optional<Product> findProductByName(@PathVariable String name){
 		return service.getProductByName(name);
 	}
 	
 	@PutMapping("/update")
-	public Product updateProduct(@RequestBody Product product) {
+	public String updateProduct(@RequestBody Product product) {
 		return service.updateProduct(product);
 	}
 	

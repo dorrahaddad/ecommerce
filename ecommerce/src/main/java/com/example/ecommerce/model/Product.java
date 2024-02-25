@@ -1,5 +1,6 @@
 package com.example.ecommerce.model;
 
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -9,7 +10,7 @@ import lombok.*;
 @Getter
 @Setter
 @Entity
-@Table(name = "PRODUCT")
+@Table(name = "PRODUCTS")
 public class Product {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,12 +27,10 @@ public class Product {
 	
 	private double price;
 	
-	@Lob
-	@Column(columnDefinition = "longblob")
-	private byte[] image;
-	
-	@ManyToOne
-	@JoinColumn(name = "category_id",nullable=false)
-    private Category category;
+	private String imgUrl;
 
+	@ManyToOne
+	@JoinColumn(name = "category_id" , referencedColumnName = "id")
+	//@JsonBackReference
+	private Category category ;
 }

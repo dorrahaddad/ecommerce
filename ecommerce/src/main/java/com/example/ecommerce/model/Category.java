@@ -4,6 +4,7 @@ import lombok.*;
 import jakarta.persistence.*;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -15,10 +16,13 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "category_name",unique=true)
+    @Column(unique=true)
     private String categoryName;
 
-    @OneToMany
-    private List<Product> product;
+    @JsonIgnore
+    @OneToMany(mappedBy="category", cascade = CascadeType.MERGE)
+    //fetch = FetchType.LAZY
+    //@JsonManagedReference
+    private List<Product> products;
 
 }

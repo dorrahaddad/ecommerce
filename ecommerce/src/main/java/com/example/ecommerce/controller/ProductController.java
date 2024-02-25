@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.ecommerce.model.Category;
 import com.example.ecommerce.model.Product;
 import com.example.ecommerce.service.ProductService;
 
@@ -57,5 +59,23 @@ public class ProductController{
 	public String deleteProduct(@PathVariable Long id) {
 		return service.deleteProduct(id);
 	}
+	 @GetMapping("/advanced-search")
+	    public List<Product> advancedSearch(
+	            @RequestParam(required = false) String name,
+	            @RequestParam(required = false) String description,
+	            @RequestParam(required = false) Integer quantity,
+	            @RequestParam(required = false) Double price,
+	            @RequestParam(required = false) String imgUrl,
+	            @RequestParam(required = false) String categoryName
+	    ) {
+	        return service.performAdvancedSearch(name, description, quantity, price, imgUrl, categoryName);
+	      }
+	 @GetMapping("/searchWithPriceRange")
+	    public List<Product> getProductsInPriceRange(
+	            @RequestParam(name = "minPrice") double minPrice,
+	            @RequestParam(name = "maxPrice") double maxPrice) {
+
+	        return service.getProductsInPriceRange(minPrice, maxPrice);
+	    }
 
 }

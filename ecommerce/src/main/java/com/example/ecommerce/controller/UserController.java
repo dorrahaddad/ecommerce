@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import com.example.ecommerce.model.User;
 import com.example.ecommerce.service.UserService;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/users")
@@ -38,6 +39,19 @@ public class UserController {
 	public String deleteUser(@PathVariable Long id) {
 		return userService.deleteUser(id);
 	}
+	   @GetMapping("/byEmail")
+	    public Optional getUserByEmail(@RequestParam String email) {
+	        return userService.findByEmail(email);
+	    }
+	    @GetMapping("/search")
+	    public List<User> rechercheAvancee(
+	            @RequestParam(required = false) String nom,
+	            @RequestParam(required = false) String prenom,
+	            @RequestParam(required = false) String adresse,
+	            @RequestParam(required = false) Long telephone
+	    ) {
+	        return userService.rechercheAvancee(nom, prenom, adresse, telephone);
+	    }
 
 
 }

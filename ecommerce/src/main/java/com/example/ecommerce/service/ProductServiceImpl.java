@@ -96,4 +96,11 @@ public class ProductServiceImpl implements ProductService {
 				return "Category not found";	
 		}	
 	}
+	public List<Product> performAdvancedSearch(String name, String description, Integer quantity,Double price, String imgUrl,String categoryName) {
+     return repository.advancedSearch(name, description, quantity, price, imgUrl,categoryName);
+}
+	  public List<Product> getProductsInPriceRange(double minPrice, double maxPrice) {
+	        return repository.findByPriceRange(minPrice, maxPrice);
+	    }
+	  
 }

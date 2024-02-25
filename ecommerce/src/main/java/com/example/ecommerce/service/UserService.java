@@ -56,4 +56,7 @@ public class UserService {
 		existuser.setRole(user.getRole());
 		return userRepository.save(existuser);
 	}
+	 public List<User> rechercheAvancee(String nom, String prenom, String adresse, Long telephone) {
+	        return userRepository.rechercheAvancee(nom, prenom, adresse, telephone);
+	    }
 }

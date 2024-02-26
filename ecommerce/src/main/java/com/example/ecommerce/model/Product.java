@@ -1,6 +1,13 @@
 package com.example.ecommerce.model;
 
 
+import java.util.List;
+import java.util.Set;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -33,4 +40,10 @@ public class Product {
 	@JoinColumn(name = "category_id" , referencedColumnName = "id")
 	//@JsonBackReference
 	private Category category ;
+	
+
+	@OneToMany(mappedBy="product", cascade = CascadeType.MERGE)
+	private List<CommandLine> commandLines ;
+
+
 }

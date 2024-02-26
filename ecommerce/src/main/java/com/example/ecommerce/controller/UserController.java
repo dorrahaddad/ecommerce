@@ -40,7 +40,7 @@ public class UserController {
 		return userService.deleteUser(id);
 	}
 	   @GetMapping("/byEmail")
-	    public Optional getUserByEmail(@RequestParam String email) {
+	    public Optional<User> getUserByEmail(@RequestParam String email) {
 	        return userService.findByEmail(email);
 	    }
 	    @GetMapping("/search")

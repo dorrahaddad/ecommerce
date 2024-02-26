@@ -1,5 +1,11 @@
 package com.example.ecommerce.model;
 
+import java.util.List;
+import java.util.Set;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -31,5 +37,11 @@ public class User {
     private String adresse;
     
     private Role role;
+    
+  
+    @OneToMany(mappedBy="user", cascade = CascadeType.MERGE)
+    private List<Command> commands; 
+    
+ 
 
 }

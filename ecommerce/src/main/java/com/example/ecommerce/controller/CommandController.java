@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.ecommerce.model.Command;
 import com.example.ecommerce.model.CommandLine;
+import com.example.ecommerce.model.Product;
 import com.example.ecommerce.model.User;
 import com.example.ecommerce.repository.UserRepository;
 import com.example.ecommerce.service.CommandLineService;
@@ -36,12 +37,25 @@ public class CommandController {
 	@PostMapping("/addCommand")
 	public String addCommand(@RequestBody Command command) {
 		commandService.saveCmd(command);
+		double somme=0.0;
 		for (CommandLine cmdLine : command.getCommandLines()) {
 			cmdLine.setCommand(command);
 			cmdLineService.saveCmdLine(cmdLine);
+			somme+=cmdLine.getPrix();
+			
 		}
+		System.out.println("testttt"+ somme);
+		command.setPrixCmd(somme);
+		commandService.saveCmd(command);
+		
 		return "command added successufully!";
 	}
+	@GetMapping("/commandById/{id}")
+	public Optional<Command> findCommandById(@PathVariable Long id){
+		return commandService.getCommandById(id);
+	}
+	
+	
 		
 
 }

@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -36,7 +37,7 @@ public class CommandLine {
 	private int quantity;
 	private double prix;
 
-	
+	@JsonProperty
 	@ManyToOne
 	@JoinColumn(name = "cmd_id" , referencedColumnName = "id")
 	private Command command ;
@@ -50,7 +51,13 @@ public class CommandLine {
 		this.product = product;
 	}
 	
-	
+	@Override
+	public String toString() {
+	    return "CommandLine{" +
+	            "id=" + id +
+	            "price="+ prix +
+	            '}';
+	}
 	
 	
  
